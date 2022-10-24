@@ -5,3 +5,5 @@ venv/
 *.sqlite3
 *.lnk
 *.code-workspace
+
+model_data/
