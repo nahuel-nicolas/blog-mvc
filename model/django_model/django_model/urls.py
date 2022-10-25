@@ -18,13 +18,16 @@ from django.urls import path, include
 
 from rest_framework import routers
 
-from notes_app import views
+from blog_app import views
 
 router = routers.DefaultRouter()
-router.register('notes', views.NoteViewSet)
+router.register('post', views.PostViewSet)
+router.register('comment', views.CommentViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
+    
     path('', include(router.urls)),
+    path('authentication/', include('authentication.urls')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

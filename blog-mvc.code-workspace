@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../django/blog"
+		},
+		{
+			"path": "../../django/notes-app-django-react"
+		},
+		{
+			"path": "../../django/flight_booking"
+		}
+	],
+	"settings": {}
+}

@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'notes_app.apps.NotesAppConfig',
+    'authentication.apps.AuthenticationConfig',
+    'blog_app.apps.BlogAppConfig',
     'rest_framework',
     'corsheaders',
     'django.contrib.admin',
@@ -80,7 +81,7 @@ WSGI_APPLICATION = 'django_model.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'notes_app_postgres_db', 
+        'NAME': 'blog_postgres_db', 
         'USER': 'postgres', 
         'PASSWORD': '',
         'HOST': '127.0.0.1', 
@@ -133,3 +134,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3030", # node controller url
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    #     'rest_framework.permissions.IsAuthenticated',
+    #     'rest_framework.permissions.IsAdminUser',
+   ),
+}
