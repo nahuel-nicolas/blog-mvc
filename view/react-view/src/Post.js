@@ -1,55 +1,75 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { useParams, useNavigate } from 'react-router-dom'
+
+import AuthContext from './Authentication/AuthContext'
+
 import Box from "./Box/Box"
 import { post_api_url } from './settings'
 
-function isPostBodyChanged(initialPostBody, currentPostBody) {
-    return initialPostBody != currentPostBody
+function areSameObject(obj1, obj2) {
+    return JSON.stringify(obj1) === JSON.stringify(obj2)
+}
+
+const REST_request_headers = {
+    'Accept': 'application/json, text/plain, */*',
+    'Content-Type': 'application/json'
 }
 
 const Post = () => {
     const navigateTo = useNavigate()
     const post_id = useParams()["post_id"]
-    const [postData, setPostData] = useState({"body": ""})
-    const [initialPostBody, setInitialPostBody] = useState(postData.body)
-    const [isNewPost, setIsNewPost] = useState(true)
+    const isNewPost = 'new' === post_id
+    const already_used_slugs = new Set()
+    const current_post_api_url = post_api_url + post_id + "/"
+    const { user, authTokens } = useContext(AuthContext)
+    REST_request_headers.Authorization = 'Bearer ' + String(authTokens.access)
+    const initPost = { body: "", title: "", slug: "", author: user.user_id }
+
+    const [postData, setPostData] = useState(initPost)
+    const [initialPostData, setInitialPostData] = useState(initPost)
     const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true)
     const [isSavingChangesBoxVisible, setIsSavingChangesBoxVisible] = useState(false)
-    const current_post_api_url = post_api_url + post_id + "/"
+    const [posts, setPosts] = useState([])
+    const [isSlugInUse, setIsSlugInUse] = useState(false)
 
     useEffect(() => {
-        if (post_id != 'new') {
-            setIsNewPost(false);
-            fetch(current_post_api_url)
-            .then(res => res.json())
-            .then(post_data => {
-                setPostData(post_data);
-                setInitialPostBody(post_data.body);
-            });
-        }
+        fetch(post_api_url)
+        .then(res => res.json())
+        .then(posts => {
+            setPosts(posts)
+            if (post_id != 'new') {
+                const current_post = posts.find(post => post.id == post_id)
+                setPostData(current_post);
+                setInitialPostData(current_post);
+            }
+            posts.map(post => {
+                if (post_id == post.id) return;
+                already_used_slugs.add(post.slug)
+            })
+        });
     }, [])
+
     useEffect(() => {
-        if (isPostBodyChanged(initialPostBody, postData.body)) {
+        setIsSlugInUse(false)
+        setIsSubmitButtonDisabled(true)
+        if (already_used_slugs.has(postData.slug)) {
+            setIsSlugInUse(true)
+        } else if (postData.title && postData.body && postData.slug && !(areSameObject(postData, initialPostData))) {
             setIsSubmitButtonDisabled(false)
-        } else {
-            setIsSubmitButtonDisabled(true)
         }
-    }, [postData, initialPostBody])
+    }, [postData, initialPostData])
 
     function textAreaChangeHandler(event) {
         setPostData((prevPostData) => ({
             ...prevPostData, 
-            "body": event.target.value
+            [event.target.name]: event.target.value
         }))
     }
 
     async function createPost() {
         await fetch(post_api_url, {
             method: "POST",
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
+            headers: REST_request_headers,
             body: JSON.stringify(postData)
         })
     }
@@ -57,21 +77,20 @@ const Post = () => {
     async function updatePost() {
         await fetch(current_post_api_url, {
             method: "PUT",
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({"body": postData.body})
+            headers: REST_request_headers,
+            body: JSON.stringify({
+                title: postData.title,
+                body: postData.body,
+                slug: postData.slug,
+                author: postData.author
+            })
         })
     }
 
     async function deletePost() {
         await fetch(current_post_api_url, {
             method: "DELETE",
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            }
+            headers: REST_request_headers
         })
     }
 
@@ -111,16 +130,39 @@ const Post = () => {
                     <p>Last update: {new Date(postData.created).toLocaleDateString()}</p>
                 </div>
             )}
+            <input
+                type="text" 
+                onChange={(event) => textAreaChangeHandler(event)}
+                // onBlur={({ target }) => target.focus()}
+                name="title" 
+                id="post_title" 
+                value={postData.title} 
+                // autoFocus={true}
+                // cols="30" rows="10"
+                // style={{"resize": "none"}}
+            />
             <textarea 
                 onChange={(event) => textAreaChangeHandler(event)}
-                onBlur={({ target }) => target.focus()}
-                name="post_body" 
+                // onBlur={({ target }) => target.focus()}
+                name="body" 
                 id="post_body" 
                 value={postData.body} 
-                autoFocus={true}
+                // autoFocus={true}
                 cols="30" rows="10"
                 style={{"resize": "none"}}
             />
+            <input
+                type="text" 
+                onChange={(event) => textAreaChangeHandler(event)}
+                // onBlur={({ target }) => target.focus()}
+                name="slug" 
+                id="post_slug" 
+                value={postData.slug} 
+                // autoFocus={true}
+                // cols="30" rows="10"
+                // style={{"resize": "none"}}
+            />
+            { isSlugInUse ? <span>Current slug is unavailable, please chose another.</span> : null }
             <div id="post_buttons_container">
                 <button onClick={submitButtonHandler} disabled={isSubmitButtonDisabled}>
                     {isNewPost ? "Create" : "Update"}
