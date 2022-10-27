@@ -32,12 +32,14 @@ let getContent = (post) => {
 
 const PostListItem = ({ postData }) => {
     return (
-        <Link to={`/post/${postData.id}`}>
-            <div className="post-list-item" >
-                <p>{postData.title}</p>
+            <div className="card" >
+                <h3>{postData.title}</h3>
                 <p><span>{getTime(postData)}</span>{getContent(postData)}</p>
+                <Link to={`/post/${postData.slug}`}>Visit</Link>
+                <span>  </span>
+                <Link to={`/post/${postData.slug}/edit`}>Edit</Link>
+                <hr />
             </div>
-        </Link>
     )
 }
 

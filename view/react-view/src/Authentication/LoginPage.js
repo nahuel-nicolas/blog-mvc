@@ -9,7 +9,7 @@ const LoginPage = () => {
         <div>
             <h2>Login</h2>
             <UserForm onSubmitHandler={loginUser} />
-            <p>New here? <Link to='/register'>Register here</Link></p>
+            <p>New here? <Link to='/register'>Register here</Link> or <Link to='/'>Go home</Link></p>
         </div>
     )
 }

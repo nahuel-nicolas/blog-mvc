@@ -9,7 +9,7 @@ const RegisterPage = () => {
         <div>
             <h2>Register</h2>
             <UserForm onSubmitHandler={registerUser} />
-            <p>Already an user? <Link to='/login'>Log in here</Link></p>
+            <p>Already an user? <Link to='/login'>Log in here</Link> or <Link to='/'>Go home</Link></p>
         </div>
     )
 }

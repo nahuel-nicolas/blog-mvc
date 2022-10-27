@@ -24,12 +24,13 @@ const PostList = () => {
         ))
     }
     return (
-        <div id="post_list_app">
+        <div id="post_list_app" className="container">
             <div id="posts">
                 {valueToReturn}
             </div>
-            <Link to='post/new'>
-                <button id="add_post_button">+</button>
+            <br />
+            <Link to='post/new/edit'>
+                <button id="add_post_button" className="btn btn-default">New Post</button>
             </Link>
         </div>
     )

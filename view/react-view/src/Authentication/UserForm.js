@@ -1,5 +1,8 @@
+import { Link } from "react-router-dom"
+
 export default function UserForm({ onSubmitHandler }) {
     return (
+        <>
         <form onSubmit={onSubmitHandler}>
             <input 
                 type="text" 
@@ -15,5 +18,6 @@ export default function UserForm({ onSubmitHandler }) {
             />
             <input type="submit"/>
         </form>
+        </>
     )
 }
