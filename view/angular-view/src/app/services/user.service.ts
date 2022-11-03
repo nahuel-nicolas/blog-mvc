@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
 import { Observable} from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { api_url } from './settings';
+import { api_url } from '../settings';
 import { MessageService } from './message.service';
 import { ErrorHandlerService } from './handle-error.service';
-import { User } from './user.interface';
+import { User } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'

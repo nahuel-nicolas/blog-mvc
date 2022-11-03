@@ -4,10 +4,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
-import { post_api_url } from './settings';
+import { post_api_url } from '../settings';
 import { MessageService } from './message.service';
 import { ErrorHandlerService } from './handle-error.service';
-import { Post } from './post.interface';
+import { Post } from '../interfaces/post.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +26,8 @@ export class PostService {
 
   /** GET posts from the server */
   getPosts(): Observable<Post[]> {
+    console.log('nba')
+    console.log(post_api_url)
     return this.http.get<Post[]>(post_api_url)
       .pipe(
         tap(_ => this.messageService.log('fetched posts')),

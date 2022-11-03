@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
 import { Observable} from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { comment_api_url } from './settings';
+import { comment_api_url } from '../settings';
 import { MessageService } from './message.service';
 import { ErrorHandlerService } from './handle-error.service';
-import { Comment } from './comment.interface';
+import { Comment } from '../interfaces/comment.interface';
 
 @Injectable({
   providedIn: 'root'

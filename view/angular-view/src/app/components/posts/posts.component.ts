@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Post } from '../post.interface';
-import { PostService } from '../post.service';
+import { Post } from '../../interfaces/post.interface';
+import { PostService } from '../../services/post.service';
 
 @Component({
   selector: 'app-posts',
@@ -14,6 +14,7 @@ export class PostsComponent implements OnInit {
   constructor(private postService: PostService) { }
 
   ngOnInit(): void {
+    console.log('nb1.5')
     this.getPosts();
   }
 

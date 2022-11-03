@@ -1,0 +1,18 @@
+<h2>Posts</h2>
+
+<div class="posts">
+    <div class="post" *ngFor="let post of posts">
+        <h4>{{post.title}}</h4>
+        <p>{{post.updated}}</p>
+        <a routerLink="{{post.slug}}">
+            Visit
+        </a>
+        <a routerLink="{{post.slug}}/edit">
+            Edit
+        </a>
+    </div>
+</div>
+
+<button type="button">
+    <a routerLink="new">New Post</a>
+</button>
