@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
 function get_post_id(postData) {
-    let post_id = postData._id
+    let post_id = postData.id
     return post_id
 }
 

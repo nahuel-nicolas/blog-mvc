@@ -137,13 +137,9 @@ const Post = () => {
                     className="form-control"
                     type="text" 
                     onChange={(event) => textAreaChangeHandler(event)}
-                    // onBlur={({ target }) => target.focus()}
                     name="title" 
                     id="post_title" 
                     value={postData.title} 
-                    // autoFocus={true}
-                    // cols="30" rows="10"
-                    // style={{"resize": "none"}}
                 />
             </div>
             <div className="form-group">
@@ -151,11 +147,9 @@ const Post = () => {
                 <textarea 
                     className="form-control"
                     onChange={(event) => textAreaChangeHandler(event)}
-                    // onBlur={({ target }) => target.focus()}
                     name="body" 
                     id="post_body" 
                     value={postData.body} 
-                    // autoFocus={true}
                     cols="30" rows="10"
                     style={{"resize": "none"}}
                 />
