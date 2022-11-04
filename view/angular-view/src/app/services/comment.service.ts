@@ -45,7 +45,7 @@ export class CommentService {
   /** POST: add a new comment to the server */
   addComment(comment: Comment): Observable<Comment> {
     return this.http.post<Comment>(comment_api_url, comment, this.httpOptions).pipe(
-      tap((newComment: Comment) => this.messageService.log(`added comment w/ id=${newComment._id}`)),
+      tap((newComment: Comment) => this.messageService.log(`added comment w/ id=${newComment.id}`)),
       catchError(this.errorHandlerService.handler<Comment>('addComment'))
     );
   }
@@ -63,7 +63,7 @@ export class CommentService {
   /** PUT: update the comment on the server */
   updateComment(comment: Comment): Observable<any> {
     return this.http.put(comment_api_url, comment, this.httpOptions).pipe(
-      tap(_ => this.messageService.log(`updated comment id=${comment._id}`)),
+      tap(_ => this.messageService.log(`updated comment id=${comment.id}`)),
       catchError(this.errorHandlerService.handler<any>('updateComment'))
     );
   }

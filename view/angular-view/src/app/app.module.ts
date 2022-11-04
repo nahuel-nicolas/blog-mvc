@@ -12,6 +12,8 @@ import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AuthGuard } from './guards/auth.guard';
+import { PostNewComponent } from './components/post-new/post-new.component';
+import { PostCommentsComponent } from './components/post-comments/post-comments.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { AuthGuard } from './guards/auth.guard';
     PostEditComponent,
     PostViewComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    PostNewComponent,
+    PostCommentsComponent
   ],
   imports: [
     BrowserModule,

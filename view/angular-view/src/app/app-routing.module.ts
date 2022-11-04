@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { PostsComponent } from './components/posts/posts.component';
 import { PostEditComponent } from './components/post-edit/post-edit.component';
+import { PostNewComponent } from './components/post-new/post-new.component';
+import { PostViewComponent } from './components/post-view/post-view.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -16,6 +18,15 @@ const routes: Routes = [
   { 
     path: 'post', 
     component: PostsComponent 
+  },
+  { 
+    path: 'post/new', 
+    component: PostNewComponent,
+    canActivate: [AuthGuard] 
+  },
+  { 
+    path: 'post/:slug', 
+    component: PostViewComponent
   },
   { 
     path: 'post/:slug/edit', 

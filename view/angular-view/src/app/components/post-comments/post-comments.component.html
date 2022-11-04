@@ -1,0 +1,23 @@
+<br>
+<hr>
+<div class="container">
+    <h3>Comments ({{comments.length}})</h3>
+    <div class="form-group">
+        <label for="comment-body">Add a comment</label>
+        <textarea 
+            class="form-control" 
+            id="comment-body" 
+            [(ngModel)]="comment.body" 
+            (change)="inputChange()"
+        >
+        </textarea>
+        <button type="button" (click)="create()" [disabled]="!canSubmit">Create</button>
+    </div>
+    <div class="post" *ngFor="let comment of comments">
+        <hr>
+        <p>{{comment.author}}'s commented at {{comment.created}}</p>
+        <div class="container">
+            <p>{{comment.body}}</p>
+        </div>
+    </div>
+</div>

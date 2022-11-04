@@ -1,8 +1,5 @@
 <br>
-<div *ngIf="post" class="container">
-    <p>Created: {{post.created}}</p>
-    <p>Last Updated: {{post.updated}}</p>
-    <p>Created by: {{ author }}</p>
+<div class="container">
     <div class="form-group">
         <label for="post-title">Title</label>
         <input 
@@ -41,7 +38,6 @@
             />
         </div>
     </ng-template>
-    <button type="button" (click)="save()" [disabled]="!canSubmit">Update</button>
-    <button type="button" (click)="goBack()">Cancel</button>
-    <button type="button" (click)="delete()">Delete</button>
+    <button type="button" (click)="create()" [disabled]="!canSubmit">Create</button>
+    <button type="button" (click)="goHome()">Cancel</button>
 </div>

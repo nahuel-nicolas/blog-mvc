@@ -26,8 +26,6 @@ export class PostService {
 
   /** GET posts from the server */
   getPosts(): Observable<Post[]> {
-    console.log('nba')
-    console.log(post_api_url)
     return this.http.get<Post[]>(post_api_url)
       .pipe(
         tap(_ => this.messageService.log('fetched posts')),
@@ -77,16 +75,16 @@ export class PostService {
   /** POST: add a new post to the server */
   addPost(post: Post): Observable<Post> {
     return this.http.post<Post>(post_api_url, post, this.httpOptions).pipe(
-      tap((newPost: Post) => this.messageService.log(`added post w/ id=${newPost._id}`)),
+      tap((newPost: Post) => this.messageService.log(`added post w/ id=${newPost.id}`)),
       catchError(this.errorHandlerService.handler<Post>('addPost'))
     );
   }
 
   /** DELETE: delete the post from the server */
-  deletePost(id: number): Observable<Post> {
-    const url = `${post_api_url}/${id}`;
+  deletePost(post: Post): Observable<Post> {
+    const id = post.id;
 
-    return this.http.delete<Post>(url, this.httpOptions).pipe(
+    return this.http.delete<Post>(post_api_url + id + '/', this.httpOptions).pipe(
       tap(_ => this.messageService.log(`deleted post id=${id}`)),
       catchError(this.errorHandlerService.handler<Post>('deletePost'))
     );
@@ -94,8 +92,8 @@ export class PostService {
 
   /** PUT: update the post on the server */
   updatePost(post: Post): Observable<any> {
-    return this.http.put(post_api_url, post, this.httpOptions).pipe(
-      tap(_ => this.messageService.log(`updated post id=${post._id}`)),
+    return this.http.put(post_api_url + post.id + '/', post, this.httpOptions).pipe(
+      tap(_ => this.messageService.log(`updated post id=${post.id}`)),
       catchError(this.errorHandlerService.handler<any>('updatePost'))
     );
   }

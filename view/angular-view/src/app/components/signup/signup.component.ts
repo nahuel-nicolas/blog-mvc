@@ -24,7 +24,6 @@ export class SignupComponent implements OnInit {
         user => {
           this.authService.signInUser(user)
             .subscribe(token => {
-              console.log(token);
               localStorage.setItem('token', JSON.stringify(token));
               this.router.navigate(['/']);
             })

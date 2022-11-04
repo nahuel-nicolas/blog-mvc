@@ -1,1 +1,7 @@
-<p>post-view works!</p>
+<br>
+<div *ngIf="post" class="container">
+    <h1>{{post.title}}</h1>
+    <p>Created at {{post.created}} by {{author}}</p>
+    <p>{{post.body}}</p>
+</div>
+<app-post-comments></app-post-comments>

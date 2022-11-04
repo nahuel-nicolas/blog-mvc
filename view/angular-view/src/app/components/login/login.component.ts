@@ -20,10 +20,8 @@ export class LoginComponent implements OnInit {
   }
 
   signIn() {
-    console.log(this.user)
     this.authService.signInUser(this.user)
       .subscribe(token => {
-          console.log(token);
           localStorage.setItem('token', JSON.stringify(token));
           this.router.navigate(['/']);
         }
