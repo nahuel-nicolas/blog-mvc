@@ -86,7 +86,7 @@ export const AuthProvider = ({children}) => {
         // router.push('/login')
     }
 
-    const updateToken = async ()=> {
+    const updateToken = async () => {
         let tempAuthTokens = authTokens ? authTokens : getAuthTokens();
         const response = await fetch(authentication_api_url + 'token/refresh/', {
             method:'POST',

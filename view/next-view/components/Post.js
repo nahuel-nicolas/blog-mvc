@@ -56,7 +56,7 @@ const Post = () => {
             <p>{postData.body}</p>
             <br />
             <hr />
-            <AddComment post_id={postData.id} isSavingChangesBoxVisible={isSavingChangesBoxVisible} />
+            <AddComment post_id={postData.id} isSavingChangesBoxVisible={isSavingChangesBoxVisible} setIsSavingChangesBoxVisible={setIsSavingChangesBoxVisible} />
             <h4>Comments ({comments.length})</h4>
             <div className="container">
                 {comments.map((comment, idx) => (
