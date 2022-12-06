@@ -1,159 +1,96 @@
-const express = require("express");
-const cors = require("cors");
-const axios = require('axios');
+const { server } = require('./express');
+const response = require('./response');
+const request = require('./request');
+const settings = require('./settings');
 
-const app = express()
-
-// const settings = require("./settings");
-// const model_api_url = settings.model_api_url;
-// const port = settings.port;
-const model_api_url = 'http://localhost:8000/';
-const post_model_api_url = model_api_url + 'post/';
-const comment_model_api_url = model_api_url + 'comment/';
-const authentication_model_api_url = model_api_url + 'authentication/';
-const user_authentication_model_api_url = authentication_model_api_url + 'user/';
-const token_authentication_model_api_url = authentication_model_api_url + 'token/';
-const refresh_token_authentication_model_api_url = token_authentication_model_api_url + 'refresh/';
-
-const port = 3030;
-
-app.use(express.json());
-app.use(cors());
-app.set('json spaces', 2)
+server.listen(settings.port, () => {
+    console.log(`Node server is running on port ${settings.port}!`);
+});
 
 
 // /
-app.get("/", (req, res) => {
+server.get("/", (req, res) => {
     return res.json({'hi': 'world'})
 });
 
 
 // /authentication/user/
-app.get("/authentication/user/", (req, res) => {
-    basic_get_req(req, res, user_authentication_model_api_url)
+server.get("/authentication/user/", (req, res) => {
+    response.send(request.get, req, res, settings.user_authentication_model_api_url)
 });
 
-app.post("/authentication/user/", (req, res) => {
-    basic_post_req(req, res, user_authentication_model_api_url)
+server.post("/authentication/user/", (req, res) => {
+    response.send(request.post, req, res, settings.user_authentication_model_api_url)
 });
 
 
 // /authentication/token/
-app.post("/authentication/token/", (req, res) => {
-    basic_post_req(req, res, token_authentication_model_api_url)
+server.post("/authentication/token/", (req, res) => {
+    response.send(request.post, req, res, settings.token_authentication_model_api_url)
 });
 
 
 // /authentication/token/refresh/
-app.post("/authentication/token/refresh/", (req, res) => {
-    basic_post_req(req, res, refresh_token_authentication_model_api_url)
+server.post("/authentication/token/refresh/", (req, res) => {
+    response.send(request.post, req, res, settings.refresh_token_authentication_model_api_url)
 });
 
 
 // /post/
-app.get("/post/", (req, res) => {
-    basic_get_req(req, res, post_model_api_url)
+server.get("/post/", (req, res) => {
+    response.sendWithRedis(request.get, req, res, settings.post_model_api_url)
 });
 
-app.post("/post/", (req, res) => {
-    auth_post_req(req, res, post_model_api_url)
+server.post("/post/", (req, res) => {
+    response.send(request.authPost, req, res, settings.post_model_api_url)
 });
 
 
 // /post/:post_id/
-app.get("/post/:post_id/", (req, res) => {
+server.get("/post/:post_id/", (req, res) => {
     const post_id = req.params.post_id;
-    const url = post_model_api_url + `${post_id}/`;
-    basic_get_req(req, res, url)
+    const url = settings.post_model_api_url + `${post_id}/`;
+    response.sendWithRedis(request.get, req, res, url)
 });
 
-app.put("/post/:post_id/", (req, res) => {
+server.put("/post/:post_id/", (req, res) => {
     const post_id = req.params.post_id;
-    const url = post_model_api_url + `${post_id}/`;
-    auth_put_req(req, res, url)
+    const url = settings.post_model_api_url + `${post_id}/`;
+    response.send(request.authPut, req, res, url)
 });
 
-app.delete("/post/:post_id/", (req, res) => {
+server.delete("/post/:post_id/", (req, res) => {
     const post_id = req.params.post_id;
-    const url = post_model_api_url + `${post_id}/`;
-    auth_delete_req(req, res, url)
+    const url = settings.post_model_api_url + `${post_id}/`;
+    response.send(request.authDelete, req, res, url)
 });
 
 
 // /comment/
-app.get("/comment/", (req, res) => {
-    basic_get_req(req, res, comment_model_api_url)
+server.get("/comment/", (req, res) => {
+    response.sendWithRedis(request.get, req, res, settings.comment_model_api_url)
 });
 
-app.post("/comment/", (req, res) => {
-    auth_post_req(req, res, comment_model_api_url)
+server.post("/comment/", (req, res) => {
+    response.send(request.authPost, req, res, settings.comment_model_api_url)
 });
 
 
 // /comment/:comment_id/
-app.get("/comment/:comment_id/", (req, res) => {
+server.get("/comment/:comment_id/", (req, res) => {
     const comment_id = req.params.comment_id;
-    const url = comment_model_api_url + `${comment_id}/`;
-    basic_get_req(req, res, url)
+    const url = settings.comment_model_api_url + `${comment_id}/`;
+    response.sendWithRedis(request.get, req, res, url)
 });
 
-app.put("/comment/:comment_id/", (req, res) => {
+server.put("/comment/:comment_id/", (req, res) => {
     const comment_id = req.params.comment_id;
-    const url = comment_model_api_url + `${comment_id}/`;
-    auth_put_req(req, res, url)
+    const url = settings.comment_model_api_url + `${comment_id}/`;
+    response.send(request.authPut, req, res, url)
 });
 
-app.delete("/comment/:comment_id/", (req, res) => {
+server.delete("/comment/:comment_id/", (req, res) => {
     const comment_id = req.params.comment_id;
-    const url = comment_model_api_url + `${comment_id}/`;
-    auth_delete_req(req, res, url)
+    const url = settings.comment_model_api_url + `${comment_id}/`;
+    response.send(request.authDelete, req, res, url);
 });
-
-
-app.listen(port, () => {
-    console.log(`Node server is running on port ${port}!`);
-});
-
-
-function basic_get_req(req, res, model_url) {
-    console.log(req.method + ' ' + req.path);
-    axios.get(model_url).then(
-        model_res => res.json(model_res.data),
-        err => res.status(err.response.status).send(err.response.data)
-    )
-}
-
-function basic_post_req(req, res, model_url) {
-    console.log(req.method + ' ' + req.path);
-    axios.post(model_url, req.body).then(
-        model_res => res.json(model_res.data),
-        err => res.status(err.response.status).send(err.response.data)
-    )
-} 
-
-function auth_post_req(req, res, model_url) {
-    console.log(req.method + ' ' + req.path);
-    const headers = {authorization: req.headers.authorization};
-    axios.post(model_url, req.body, {headers}).then(
-        model_res => res.json(model_res.data),
-        err => res.status(err.response.status).send(err.response.data)
-    );
-}
-
-function auth_put_req(req, res, model_url) {
-    console.log(req.method + ' ' + req.path);
-    const headers = {authorization: req.headers.authorization};
-    axios.put(model_url, req.body, {headers}).then(
-        model_res => res.json(model_res.data),
-        err => res.status(err.response.status).send(err.response.data)
-    );
-}
-
-function auth_delete_req(req, res, model_url) {
-    console.log(req.method + ' ' + req.path);
-    const headers = {authorization: req.headers.authorization};
-    axios.delete(model_url, {headers}).then(
-        model_res => res.json(model_res.data),
-        err => res.status(err.response.status).send(err.response.data)
-    );
-}
