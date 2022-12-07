@@ -8,6 +8,7 @@ services:
       POSTGRES_HOST_AUTH_METHOD: "trust"
     volumes:
       - ./model/model_data:/var/lib/postgresql/data
+
   django_model:
     image: nahuelbarbieri/blog-app-mvc-django-model
     build:
@@ -15,6 +16,8 @@ services:
       dockerfile: Dockerfile
     network_mode: "host"
     restart: unless-stopped
+    volumes:
+      - ./model/django_model:/django_model
     command: >
       sh -c "cd /django_model &&
             echo '>>> INSTALLING PYTHON MODULES <<<' &&
@@ -24,28 +27,26 @@ services:
             echo '>>> RUNNING MIGRATIONS <<<' &&
             echo '' &&
             python manage.py migrate &&
-            # echo '' &&
-            # echo '>>> CREATING STATIC FILES <<<' &&
-            # echo '' &&
-            # python manage.py collectstatic &&
-            # echo '' &&
+            echo '' &&
             echo '>>> STARTING SERVICE <<<' &&
             echo '' &&
             python manage.py runserver"
-    volumes:
-      - ./model/django_model:/django_model
     depends_on:
       - postgres
+
   redis:
     image: redis:7.0.5-alpine
     network_mode: "host"
     restart: unless-stopped
     volumes:
       - ./controller/redis_data:/data
+
   node_controller:
     image: node:18.12.1-alpine3.15
     network_mode: "host"
     restart: unless-stopped
+    volumes:
+      - ./controller/node_controller:/node_controller
     command: >
       sh -c "cd /node_controller &&
             echo '>>> INSTALLING NODE MODULES <<<' &&
@@ -55,9 +56,63 @@ services:
             echo '>>> STARTING SERVICE <<<' &&
             echo '' &&
             npm start"
-    volumes:
-      - ./controller/node_controller:/node_controller
     depends_on:
       - django_model
       - redis
 
+  react_view:
+    image: node:18.12.1-alpine3.15
+    network_mode: "host"
+    restart: unless-stopped
+    volumes:
+      - ./view/react_view:/react_view
+    command: >
+      sh -c "cd /react_view &&
+            echo '>>> INSTALLING NODE MODULES <<<' &&
+            echo '' &&
+            npm i &&
+            echo '' &&
+            echo '>>> STARTING SERVICE <<<' &&
+            echo '' &&
+            npm start"
+    
+    depends_on:
+      - node_controller
+
+  angular_view:
+    image: node:18.12.1-alpine3.15
+    network_mode: "host"
+    restart: unless-stopped
+    volumes:
+      - ./view/angular_view:/angular_view
+    command: >
+      sh -c "cd /angular_view &&
+            echo '>>> INSTALLING NODE MODULES <<<' &&
+            echo '' &&
+            npm i &&
+            echo '' &&
+            echo '>>> STARTING SERVICE <<<' &&
+            echo '' &&
+            npm start"
+    
+    depends_on:
+      - node_controller
+
+  next_view:
+    image: node:18.12.1-alpine3.15
+    network_mode: "host"
+    restart: unless-stopped
+    volumes:
+      - ./view/next_view:/next_view
+    command: >
+      sh -c "cd /next_view &&
+            echo '>>> INSTALLING NODE MODULES <<<' &&
+            echo '' &&
+            npm i &&
+            echo '' &&
+            echo '>>> STARTING SERVICE <<<' &&
+            echo '' &&
+            npm run dev"
+    
+    depends_on:
+      - node_controller

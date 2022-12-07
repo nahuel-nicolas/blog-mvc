@@ -11,6 +11,10 @@ const refresh_token_authentication_model_api_url = token_authentication_model_ap
 const redisHost = '127.0.0.1';
 const redisPort = 6379;
 
+const reactViewHost = 'http://localhost:3500';
+const angularViewHost = 'http://localhost:4200';
+const nextViewHost = 'http://localhost:3000';
+
 module.exports = {
     port,
     model_api_url,
@@ -21,5 +25,8 @@ module.exports = {
     token_authentication_model_api_url,
     refresh_token_authentication_model_api_url,
     redisHost,
-    redisPort
+    redisPort,
+    reactViewHost,
+    angularViewHost,
+    nextViewHost
 }

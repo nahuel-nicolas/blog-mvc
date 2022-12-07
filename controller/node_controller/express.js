@@ -1,14 +1,16 @@
 const express = require("express");
 const cors = require("cors");
 const responseTime = require("response-time");
+const settings = require("./settings");
 
 const server = express();
 server.use(express.json());
 server.use(cors(
     {
         origin: [
-            'http://localhost:3000', 
-            'http://localhost:4200'
+            settings.reactViewHost,
+            settings.angularViewHost,
+            settings.nextViewHost
         ]
     }
 ));
