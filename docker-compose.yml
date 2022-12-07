@@ -2,10 +2,62 @@ version: "3.8"
 services:
   postgres:
     image: postgres:14.4-alpine
-    container_name: postgres
     network_mode: "host"
     restart: unless-stopped
     environment:
       POSTGRES_HOST_AUTH_METHOD: "trust"
     volumes:
       - ./model/model_data:/var/lib/postgresql/data
+  django_model:
+    image: nahuelbarbieri/blog-app-mvc-django-model
+    build:
+      context: ./model/django_model/
+      dockerfile: Dockerfile
+    network_mode: "host"
+    restart: unless-stopped
+    command: >
+      sh -c "cd /django_model &&
+            echo '>>> INSTALLING PYTHON MODULES <<<' &&
+            echo '' &&
+            pip install -r requirements.txt &&
+            echo '' &&
+            echo '>>> RUNNING MIGRATIONS <<<' &&
+            echo '' &&
+            python manage.py migrate &&
+            # echo '' &&
+            # echo '>>> CREATING STATIC FILES <<<' &&
+            # echo '' &&
+            # python manage.py collectstatic &&
+            # echo '' &&
+            echo '>>> STARTING SERVICE <<<' &&
+            echo '' &&
+            python manage.py runserver"
+    volumes:
+      - ./model/django_model:/django_model
+    depends_on:
+      - postgres
+  redis:
+    image: redis:7.0.5-alpine
+    network_mode: "host"
+    restart: unless-stopped
+    volumes:
+      - ./controller/redis_data:/data
+  node_controller:
+    image: node:18.12.1-alpine3.15
+    network_mode: "host"
+    restart: unless-stopped
+    command: >
+      sh -c "cd /node_controller &&
+            echo '>>> INSTALLING NODE MODULES <<<' &&
+            echo '' &&
+            npm i &&
+            echo '' &&
+            echo '>>> STARTING SERVICE <<<' &&
+            echo '' &&
+            npm start"
+    volumes:
+      - ./controller/node_controller:/node_controller
+    depends_on:
+      - django_model
+      - redis
+

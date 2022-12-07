@@ -32,6 +32,12 @@
 		},
 		{
 			"path": "../../node/next/FaztWeb-nextjs-context-crud"
+		},
+		{
+			"path": "../../../nika/mav2"
+		},
+		{
+			"path": "../../node/FaztWeb-nodejs-redis-caching"
 		}
 	],
 	"settings": {}
