@@ -15,6 +15,8 @@ const reactViewHost = 'http://localhost:3500';
 const angularViewHost = 'http://localhost:4200';
 const nextViewHost = 'http://localhost:3000';
 
+const debug = true;
+
 module.exports = {
     port,
     model_api_url,
@@ -28,5 +30,6 @@ module.exports = {
     redisPort,
     reactViewHost,
     angularViewHost,
-    nextViewHost
+    nextViewHost,
+    debug
 }

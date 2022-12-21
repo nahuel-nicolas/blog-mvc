@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from 'react'
 import jwt_decode from "jwt-decode";
 import { useNavigate } from 'react-router-dom'
 import authentication_api_url from './authentication_api_url';
+import { log } from '../utilities';
 
 const AuthContext = createContext()
 
@@ -44,7 +45,7 @@ export const AuthProvider = ({children}) => {
         if (response.status < 400) {
             loginUser(e)
         } else {
-            console.log([response, data])
+            log([response, data])
             alert(data.username)
         }
     }
@@ -69,7 +70,7 @@ export const AuthProvider = ({children}) => {
             localStorage.setItem('authTokens', JSON.stringify(data))
             navigateTo('/')
         }else{
-            console.log([response, data])
+            log.info([response, data])
             alert(data.detail)
         }
     }
@@ -96,7 +97,7 @@ export const AuthProvider = ({children}) => {
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
         }else{
-            console.log([response, data])
+            log.info([response, data])
             logoutUser()
         }
 

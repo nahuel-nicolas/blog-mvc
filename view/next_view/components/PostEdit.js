@@ -4,6 +4,7 @@ import AuthContext from "./authentication/AuthContext";
 
 import Box from "./Box"
 import { post_api_url } from '../settings'
+import { log } from '../utilities'
 
 function areSameObject(obj1, obj2) {
     return JSON.stringify(obj1) === JSON.stringify(obj2)
@@ -39,10 +40,9 @@ const PostEdit = () => {
         .then(posts => {
             setPosts(posts)
             if (!isNewPost) {
-                console.log(posts)
+                log.debug(posts)
                 const current_post = posts.find(post => post.slug == post_slug)
-                console.log([post_slug, current_post, posts])
-                debugger;
+                log.debug([post_slug, current_post, posts])
                 set_current_post_api_url(post_api_url + current_post.id + '/')
                 setPostData(current_post);
                 setInitialPostData(current_post);
@@ -90,7 +90,7 @@ const PostEdit = () => {
             })
         })
         res.json().then(data => {
-            console.log(data)
+            log.debug(data)
         })
     }
 

@@ -5,6 +5,7 @@ import { post_api_url } from '../settings';
 import PostListItem from '../components/PostListItem';
 import useSWR from 'swr';
 import Link from 'next/link';
+import { log } from '../utilities';
 
 const fetcher = async (url) => {
   const res = await fetch(url);
@@ -19,8 +20,8 @@ const fetcher = async (url) => {
     throw error;
   }
   const data = await res.json();
-  console.log(res)
-  console.log(data)
+  log.debug(res)
+  log.debug(data)
 
   return data;
 };
@@ -28,8 +29,6 @@ const fetcher = async (url) => {
 export default function Home() {
   const { data, error } = useSWR(post_api_url, fetcher)
   const posts = data;
-  // console.log([error, 1])
-  // console.log([posts, data])
   if (error) return <div>{error}</div>;
   if (!posts) return <p>Loading...</p>;
   return (

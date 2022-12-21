@@ -8,3 +8,5 @@ export const register_user_api_url = authentication_api_url + 'user/';
 export const login_user_and_get_token_api_url = authentication_api_url + 'token/';
 
 export const refresh_token_api_url = login_user_and_get_token_api_url + 'refresh/';
+
+export const debug = true;

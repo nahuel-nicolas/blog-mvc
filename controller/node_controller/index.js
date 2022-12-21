@@ -2,9 +2,10 @@ const { server } = require('./express');
 const response = require('./response');
 const request = require('./request');
 const settings = require('./settings');
+const { log } = require('./utilities');
 
 server.listen(settings.port, () => {
-    console.log(`Node server is running on port ${settings.port}!`);
+    log.info(`Node server is running on port ${settings.port}!`);
 });
 
 

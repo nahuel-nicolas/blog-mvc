@@ -10,7 +10,7 @@ import { Users } from 'src/app/interfaces/users.interface';
 import { UserService } from 'src/app/services/user.service';
 import { Comment } from 'src/app/interfaces/comment.interface';
 import { CommentService } from 'src/app/services/comment.service';
-import { getLocalDateString, wordToUpperCase } from 'src/app/utilities';
+import { getLocalDateString, wordToUpperCase, log } from 'src/app/utilities';
 
 @Component({
   selector: 'app-post-comments',
@@ -40,8 +40,7 @@ export class PostCommentsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.posts)
-    console.log('hi')
+    log.debug(this.posts)
     this.slug = this.route.snapshot.paramMap.get('slug');
     this.getPosts();
   }
@@ -49,7 +48,7 @@ export class PostCommentsComponent implements OnInit {
   getPosts(): void {
     this.postService.getPosts().subscribe(posts => {
       this.posts = posts
-      console.log(this.posts)
+      log.debug(this.posts)
       posts.map(current_post => {
         if (current_post.slug == this.slug) {
           this.post = current_post;
@@ -60,14 +59,12 @@ export class PostCommentsComponent implements OnInit {
   }
 
   getUsers(post: Post): void {
-    console.log(2)
     this.userService.getUsers().subscribe(users => {
-      console.log(users)
+      log.debug(users)
       this.users = users;
       this.author = users[post.author];
       this.comment.author = this.author.id ? this.author.id : "";
       this.comment.post = post.id ? post.id : "";
-      console.log('nba')
       this.getComments(post.id)
     });
   }

@@ -5,6 +5,8 @@ import AuthContext from './Authentication/AuthContext'
 
 import Box from "./Box/Box"
 import { post_api_url } from './settings'
+import { log } from './utilities'
+
 
 function areSameObject(obj1, obj2) {
     return JSON.stringify(obj1) === JSON.stringify(obj2)
@@ -87,7 +89,7 @@ const Post = () => {
             })
         })
         res.json().then(data => {
-            console.log(data)
+            log.debug(data)
         })
     }
 

@@ -3,6 +3,8 @@ import jwt_decode from "jwt-decode";
 import { useRouter } from "next/router";
 import authentication_api_url from './authentication_api_url';
 
+import { log } from '../../utilities';
+
 const getAuthTokens = () => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null;
 const getUser = () => localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null;
 
@@ -49,7 +51,7 @@ export const AuthProvider = ({children}) => {
         if (response.status < 400) {
             loginUser(e)
         } else {
-            console.log([response, data])
+            log.info([response, data])
             alert(data.username)
         }
     }
@@ -74,7 +76,7 @@ export const AuthProvider = ({children}) => {
             localStorage.setItem('authTokens', JSON.stringify(data))
             router.push('/')
         }else{
-            console.log([response, data])
+            log.info([response, data])
             alert(data.detail)
         }
     }
@@ -102,7 +104,7 @@ export const AuthProvider = ({children}) => {
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
         } else {
-            console.log([response, data])
+            log.info([response, data])
             logoutUser()
         }
         if(loading){

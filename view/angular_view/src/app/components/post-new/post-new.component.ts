@@ -24,7 +24,6 @@ export class PostNewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('aba')
     const author = this.authService.getUserId();
     if (author) {
       this.post.author = author;

@@ -1,9 +1,9 @@
 const redis = require('./redis');
 const utilities = require('./utilities')
-
+const log = utilities.log;
 
 async function send(model_req_callable, req, res, model_url) {
-    console.log(req.method + ' ' + req.path);
+    log.info(req.method + ' ' + req.path);
     try {
         let response = model_req_callable(req, model_url);
         response = await response;
@@ -12,7 +12,7 @@ async function send(model_req_callable, req, res, model_url) {
         } else {
             res.status(response.status).send(response.data)
         }
-        console.log('response was sent')
+        log.info('response was sent')
     } catch (error) {
         console.error(error)
         res.status(500).send(error.message)
@@ -20,13 +20,13 @@ async function send(model_req_callable, req, res, model_url) {
 }
 
 async function sendWithRedis(model_req_callable, req, res, model_url) {
-    console.log(req.method + ' ' + req.path);
+    log.info(req.method + ' ' + req.path);
     try {
-        const redisData = await redis.client.get(model_url);
         let response = model_req_callable(req, model_url);
+        const redisData = await redis.client.get(model_url);
         if (redisData) {
             res.json(JSON.parse(redisData))
-            console.log('response was sent with Redis')
+            log.info('response was sent with Redis')
         } else {
             response = await response;
             if (utilities.isResponseOk(response)) {
@@ -42,7 +42,7 @@ async function sendWithRedis(model_req_callable, req, res, model_url) {
             } else {
                 res.status(response.status).send(response.data)
             }
-            console.log('response was sent')
+            log.info('response was sent')
         }
     } catch (error) {
         console.error(error)

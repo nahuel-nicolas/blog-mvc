@@ -1,3 +1,6 @@
+import { debug } from './settings';
+
+
 export function wordToUpperCase(word: string): string {
     return word[0].toUpperCase() + word.slice(1);
 }
@@ -14,3 +17,17 @@ export function getLocalDateString(utcDatetimeString: string): string {
         }
     )
 }
+
+class Log {
+    debug(params: any) {
+        if (debug) {
+            console.log(params);
+        }
+    }
+
+    info(params: any) {
+        console.log(params);
+    }
+}
+
+export const log = new Log();
