@@ -3,7 +3,8 @@ const utilities = require('./utilities')
 const log = utilities.log;
 
 async function send(model_req_callable, req, res, model_url) {
-    log.info(req.method + ' ' + req.path);
+    const endpointName = req.method + ' ' + req.path
+    log.info(endpointName);
     try {
         let response = model_req_callable(req, model_url);
         response = await response;
@@ -20,10 +21,11 @@ async function send(model_req_callable, req, res, model_url) {
 }
 
 async function sendWithRedis(model_req_callable, req, res, model_url) {
-    log.info(req.method + ' ' + req.path);
+    const endpointName = req.method + ' ' + req.path
+    log.info(endpointName);
     try {
         let response = model_req_callable(req, model_url);
-        const redisData = await redis.client.get(model_url);
+        const redisData = await redis.client.get(endpointName);
         if (redisData) {
             res.json(JSON.parse(redisData))
             log.info('response was sent with Redis')
@@ -32,7 +34,7 @@ async function sendWithRedis(model_req_callable, req, res, model_url) {
             if (utilities.isResponseOk(response)) {
                 // Saving the results in Redis. The "EX" and 10, sets an expiration of 10 Seconds
                 redis.client.set(
-                    model_url,
+                    endpointName,
                     JSON.stringify(response.data),
                     {
                         EX: 10,
