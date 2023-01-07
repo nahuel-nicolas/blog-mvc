@@ -95,3 +95,5 @@ server.delete("/comment/:comment_id/", (req, res) => {
     const url = settings.comment_model_api_url + `${comment_id}/`;
     response.send(request.authDelete, req, res, url);
 });
+
+module.exports = server;
