@@ -2,7 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert");
 
 const request = require("supertest");
-const log = require('why-is-node-running')
+const logWhyIsNodeRunning = require('why-is-node-running')
 
 const redis = require("../redis")
 const { server, serverLife } = require("../index");
@@ -199,9 +199,8 @@ describe('POST /post/', () => {
     })
 })
 
-serverLife.close()
-redis.client.quit()
-// Uncomment to see why test runner does not exit
-// setTimeout(function () {
-//     log()
-// }, 1000)
+setTimeout(() => {
+    serverLife.close()
+    redis.client.quit()
+    // logWhyIsNodeRunning()
+}, 2000)
