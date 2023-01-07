@@ -4,7 +4,7 @@ const request = require('./request');
 const settings = require('./settings');
 const { log } = require('./utilities');
 
-server.listen(settings.port, () => {
+const serverLife = server.listen(settings.port, () => {
     log.info(`Node server is running on port ${settings.port}!`);
 });
 
@@ -96,4 +96,4 @@ server.delete("/comment/:comment_id/", (req, res) => {
     response.send(request.authDelete, req, res, url);
 });
 
-module.exports = server;
+module.exports = { server, serverLife };
