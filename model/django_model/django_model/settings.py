@@ -132,7 +132,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3030", # node controller url
+    "http://localhost:3030", # node controller url on PROD
+    "http://localhost:3031", # node controller url on TESTING
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True

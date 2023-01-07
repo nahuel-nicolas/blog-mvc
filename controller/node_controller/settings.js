@@ -1,4 +1,4 @@
-const port = 3030;
+const port = process.env.NODE_ENV === 'test' ? 3031 : 3030;
 const model_api_url = 'http://localhost:8000/';
 
 const post_model_api_url = model_api_url + 'post/';
