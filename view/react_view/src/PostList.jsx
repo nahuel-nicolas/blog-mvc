@@ -8,20 +8,21 @@ const PostList = () => {
     useEffect(() => {
         fetch(post_api_url)
         .then(res => res.json())
-        .then(data => {
-            setPostListData(data)
+        .then(res => {
+            const posts = Array.isArray(res) ? res : [];
+            setPostListData(posts)
         })
     }, [])
+    
     let valueToReturn;
     if (PostListData == null) {
         valueToReturn = <h2>Loading...</h2>
-    }
-    else if (PostListData.length < 1) {
-        valueToReturn = <h2>No posts</h2>
-    } else {
+    } else if (PostListData.length > 0) {
         valueToReturn = PostListData.map((currentPostData, currentPostIdx) => (
             <PostListItem postData={currentPostData} key={currentPostIdx} />
         ))
+    } else {
+        valueToReturn = <h2>No posts</h2>
     }
     return (
         <div id="post_list_app" className="container">

@@ -130,7 +130,7 @@ const Post = () => {
             {isNewPost ? (<div id="date_field" />) : (
                 <div id="date_field" >
                     <p>Created: {new Date(postData.created).toLocaleDateString()}</p>
-                    <p>Last update: {new Date(postData.created).toLocaleDateString()}</p>
+                    <p>Last update: {new Date(postData.updated).toLocaleDateString()}</p>
                 </div>
             )}
             <div className="form-group">

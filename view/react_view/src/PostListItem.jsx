@@ -31,6 +31,7 @@ let getContent = (post) => {
 
 
 const PostListItem = ({ postData }) => {
+    if (typeof postData !== 'object') throw new TypeError('postData is not an object')
     return (
             <div className="card" >
                 <h3>{postData.title}</h3>
