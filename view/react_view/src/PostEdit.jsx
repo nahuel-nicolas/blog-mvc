@@ -136,6 +136,7 @@ const Post = () => {
             <div className="form-group">
                 <label htmlFor="post_title">Title</label>
                 <input
+                    role="title-input"
                     className="form-control"
                     type="text" 
                     onChange={(event) => textAreaChangeHandler(event)}
@@ -146,7 +147,8 @@ const Post = () => {
             </div>
             <div className="form-group">
                 <label htmlFor="post_body">Body</label>
-                <textarea 
+                <textarea
+                    role="body-textarea" 
                     className="form-control"
                     onChange={(event) => textAreaChangeHandler(event)}
                     name="body" 
@@ -160,6 +162,7 @@ const Post = () => {
                 {isSlugInUse ? <p className="control-label">Slug already in use.</p> : null}
                 <label className="control-label" htmlFor="post_slug">Slug</label>
                 <input
+                    role="slug-input"
                     className="form-control"
                     type="text" 
                     onChange={(event) => textAreaChangeHandler(event)}
@@ -169,7 +172,7 @@ const Post = () => {
                 />
             </div> 
             <div id="post_buttons_container">
-                <button className="btn btn-default" onClick={submitButtonHandler} disabled={isSubmitButtonDisabled}>
+                <button className="btn btn-default" onClick={submitButtonHandler} disabled={isSubmitButtonDisabled} role="summit">
                     {isNewPost ? "Create" : "Update"}
                 </button>
                 <button className="btn btn-default" id="back_button" onClick={GoBackButtonHandler}>
