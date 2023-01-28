@@ -178,7 +178,7 @@ const Post = () => {
                 <button className="btn btn-default" id="back_button" onClick={GoBackButtonHandler}>
                     Cancel
                 </button>
-                <button className="btn btn-default" onClick={deleteButtonHandler} disabled={isNewPost}>
+                <button className="btn btn-default" onClick={deleteButtonHandler} disabled={isNewPost} role="delete">
                     <i className="fas fa-trash-alt" />
                 </button>
             </div>

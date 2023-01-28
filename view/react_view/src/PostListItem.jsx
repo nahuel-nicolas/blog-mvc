@@ -33,7 +33,7 @@ let getContent = (post) => {
 const PostListItem = ({ postData }) => {
     if (typeof postData !== 'object') throw new TypeError('postData is not an object')
     return (
-            <div className="card" >
+            <div className="card" role="post-list-item">
                 <h3>{postData.title}</h3>
                 <p><span>{getTime(postData)}</span>{getContent(postData)}</p>
                 <Link to={`/post/${postData.slug}`}>Visit</Link>

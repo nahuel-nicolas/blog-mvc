@@ -5,12 +5,14 @@ export default function UserForm({ onSubmitHandler }) {
         <>
         <form onSubmit={onSubmitHandler}>
             <input 
+                role="usernameinput"
                 type="text" 
                 name="username" 
                 placeholder="Enter Username" 
                 autoComplete="on"
             />
-            <input 
+            <input
+                role="passwordinput" 
                 type="password" 
                 name="password" 
                 placeholder="Enter Password"

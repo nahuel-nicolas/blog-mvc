@@ -32,12 +32,12 @@ async function sendWithRedis(model_req_callable, req, res, model_url) {
         } else {
             response = await response;
             if (utilities.isResponseOk(response)) {
-                // Saving the results in Redis. The "EX" and 10, sets an expiration of 10 Seconds
+                // Saving the results in Redis. The "EX" and 3, sets an expiration of 3 Seconds
                 redis.client.set(
                     endpointName,
                     JSON.stringify(response.data),
                     {
-                        EX: 10,
+                        EX: 3,
                     }
                 );
                 res.json(response.data)
