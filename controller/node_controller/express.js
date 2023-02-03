@@ -8,9 +8,7 @@ server.use(express.json());
 server.use(cors(
     {
         origin: [
-            settings.reactViewHost,
-            settings.angularViewHost,
-            settings.nextViewHost
+            ...settings.allowedCorsUrls,
         ]
     }
 ));

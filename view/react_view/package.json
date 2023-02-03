@@ -24,7 +24,7 @@
     "test": "vitest",
     "test:watch": "vitest watch",
     "coverage": "vitest run --coverage",
-    "cypress": "cypress open",
+    "cypress": "cypress run",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

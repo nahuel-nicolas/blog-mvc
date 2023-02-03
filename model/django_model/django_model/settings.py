@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%dgm^(qbsfkv81otb_kn-1ynthtc%hh*n^7u-usjm4n(=@87s7'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY") 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+IS_PRODUCTION = os.getenv("CONFIGURATION") == 'production'
+DEBUG = False if IS_PRODUCTION else True
 
-ALLOWED_HOSTS = []
+HOSTNAME = os.getenv("PRODUCTION_HOSTNAME") if IS_PRODUCTION else os.getenv("HOSTNAME")
+
+ALLOWED_HOSTS = [
+    HOSTNAME
+]
 
 
 # Application definition
@@ -78,14 +84,19 @@ WSGI_APPLICATION = 'django_model.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+POSTGRES_HOSTNAME = os.getenv("POSTGRES_HOSTNAME")
+POSTGRES_PORT = os.getenv("POSTGRES_PORT")
+POSTGRES_USER = os.getenv("POSTGRES_USER")
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'blog_postgres_db', 
-        'USER': 'postgres', 
-        'PASSWORD': '',
-        'HOST': '127.0.0.1', 
-        'PORT': '5432',
+        'USER': POSTGRES_USER, 
+        'PASSWORD': POSTGRES_PASSWORD,
+        'HOST': POSTGRES_HOSTNAME, 
+        'PORT': POSTGRES_PORT,
     }
 }
 
@@ -131,9 +142,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+NODE_BASE_URL = os.getenv("PROTOCOL") + HOSTNAME
+NODE_URL = NODE_BASE_URL + ':' + os.getenv("NODE_PORT")
+NODE_TEST_URL = NODE_BASE_URL + ':' + os.getenv("NODE_TEST_PORT")
+
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3030", # node controller url on PROD
-    "http://localhost:3031", # node controller url on TESTING
+    NODE_URL,
+    NODE_TEST_URL
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True

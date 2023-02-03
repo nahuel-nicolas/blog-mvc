@@ -1,5 +1,6 @@
 ## Test app
 docker exec -it CONTAINER /bin/sh -c "cd react_view/ && npm test"
+docker exec -it CONTAINER /bin/sh -c "cd react_view/ && npm run cypress"
 
 ## Available Scripts
 
