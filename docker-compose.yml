@@ -96,10 +96,14 @@ services:
             echo '>>> INSTALLING NODE MODULES <<<' &&
             echo '' &&
             npm i &&
+            npm install -g serve &&
             echo '' &&
             echo '>>> STARTING SERVICE <<<' &&
             echo '' &&
-            npm start"
+            # npm run build &&
+            # serve -s build -l ${REACT_PORT}
+            npm start
+            "
     depends_on:
       - node_controller
 
@@ -114,10 +118,14 @@ services:
             echo '>>> INSTALLING NODE MODULES <<<' &&
             echo '' &&
             npm i &&
+            npm install -g serve &&
             echo '' &&
             echo '>>> STARTING SERVICE <<<' &&
             echo '' &&
-            npm start --configuration=${CONFIGURATION}"
+            # npm run build &&
+            # serve -s dist/angular-view -l ${ANGULAR_PORT}
+            npm start --configuration=${CONFIGURATION}
+            "
     depends_on:
       - node_controller
 
@@ -135,6 +143,9 @@ services:
             echo '' &&
             echo '>>> STARTING SERVICE <<<' &&
             echo '' &&
-            npm run dev"
+            # npm run build &&
+            # npm run start
+            npm run dev
+            "
     depends_on:
       - node_controller
