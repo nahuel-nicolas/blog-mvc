@@ -10,5 +10,9 @@ module.exports = defineConfig({
         }
       })
     },
+    "compilerOptions": {
+      "lib": ["ES2021"],
+      "target": "ES2021"
+    }
   },
 });

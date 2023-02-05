@@ -86,13 +86,17 @@ services:
       NEXT_PORT: ${NEXT_PORT}
 
   react_view:
-    image: node:18.12.1-alpine3.15
+    image: node:18.12.1 # -alpine3.15
     network_mode: "host"
     restart: unless-stopped
     volumes:
       - ./view/react_view:/react_view
     command: >
       sh -c "cd /react_view &&
+            echo '>>> ASSIGN NEEDED INSTALL PERMISSIONS <<<' &&
+            echo '' &&
+            chmod 777 /root &&
+            echo '' &&
             echo '>>> INSTALLING NODE MODULES <<<' &&
             echo '' &&
             npm i &&
