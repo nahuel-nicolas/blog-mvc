@@ -32,6 +32,7 @@ for (const currentViewPort of viewPorts) {
 const debug = true;
 
 module.exports = {
+    isProduction,
     port,
     model_api_url,
     post_model_api_url,

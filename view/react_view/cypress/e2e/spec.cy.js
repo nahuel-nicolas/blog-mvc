@@ -3,17 +3,24 @@ const screen = cy;
 
 const cypressTester = { username: 'cypressTester', password: 'secr3t' }
 
-const isUserRegistered = (username) => {
-  const registeredUsers = fetch(authentication_api_url + 'user/')
-    .then(response => response.json())
-    .then(response => response.data)
-  return checkIfUsernameInResponse(registeredUsers, username)
+let isUserRegistered = true;
+
+async function getResgiteredUsers() {
+  return await fetch(authentication_api_url + 'user/')
+    .then(response => {
+      return response.json()
+    })
+}
+
+const setIsUserRegistered = async (username) => {
+  const registeredUsers = await getResgiteredUsers()
+  isUserRegistered = checkIfUsernameInResponse(registeredUsers, username)
 }
 
 const checkIfUsernameInResponse = (responseData, username) => {
   for (const key in responseData) {
     const currentUserData = responseData[key]
-    if (username in currentUserData) {
+    if (username === currentUserData.username) {
       return true
     }
   }
@@ -33,6 +40,10 @@ const updatedPostData = {
 }
 
 describe('end to end test with registered user', () => {
+  beforeEach(async () => {
+    await setIsUserRegistered(cypressTester.username)
+  })
+
   it('should register/login', () => {
     if (isUserRegistered) {
       cy.visit('http://localhost:3500/login');
@@ -127,7 +138,7 @@ describe('end to end test with registered user', () => {
 
     cy.visit(`http://localhost:3500/post/${updatedPostData.slug}/edit`)
 
-    screen.findByRole('delete').click()
+    screen.findByRole('delete').wait(msWaitTime / 3).click()
 
     // we should've been redirected to home
     cy.url().should('eq', 'http://localhost:3500/')
