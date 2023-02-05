@@ -104,6 +104,7 @@ services:
             echo '' &&
             echo '>>> STARTING SERVICE <<<' &&
             echo '' &&
+            mkdir -p node_modules/.cache && chmod -R 777 node_modules/.cache &&
             # npm run build &&
             # serve -s build -l ${REACT_PORT}
             npm start
