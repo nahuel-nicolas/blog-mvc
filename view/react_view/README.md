@@ -1,6 +1,7 @@
 ## Test app
 docker exec -it CONTAINER /bin/sh -c "cd react_view/ && npm test"
-docker exec -it CONTAINER /bin/sh -c "cd react_view/ && npm run cypress"
+
+If cypress is globaly installed on your machine (npm i -g cypress), there is an available cypress e2e test for this view at ./cypress/e2e/spec.cy.js
 
 ## Available Scripts
 
