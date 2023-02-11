@@ -1,16 +1,24 @@
-Run database:
+# Start containers:
+
 docker-compose up
-# docker exec -it postgres bash
-# psql -h localhost -p 5432 -U postgres -W
-docker exec -it postgres psql -h localhost -p 5432 -U postgres
+
+# Visit apps
+
+react_view: http://0.0.0.0:3500/
+
+angular_view: http://0.0.0.0:4200/
+
+next_view: http://0.0.0.0:3000/
+
+node_controller: http://0.0.0.0:3030/
+
+django_model: http://0.0.0.0:8000/
+
+
+# Manage database:
+
+docker exec -it postgres psql -h localhost -p 5432 -U postgres -W
+
 password=(ENTER)
-postgres does not ask for password if detecta that user is accessing from same origin.
 
-# docker exec -it postgres psql -U postgres
-
-ports
-8000 django
-3030 node
-3000 next
-3500 react
-4200 angular
+postgres does not ask for password if user access from same origin.
