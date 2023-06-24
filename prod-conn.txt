@@ -1,0 +1,5 @@
+psql -h <REMOTE HOST> -p <REMOTE PORT> -U <DB_USER> <DB_NAME>
+
+ssh ubuntu@44.198.41.77 -i ./blog-mvc-keypair.pem
+
+psql -h database-1.ccxx7wkpk4jg.us-east-1.rds.amazonaws.com -U nahuel -d postgres
