@@ -29,6 +29,8 @@ DEBUG = False if IS_PRODUCTION else True
 
 HOSTNAME = os.getenv("PRODUCTION_HOSTNAME") if IS_PRODUCTION else os.getenv("HOSTNAME")
 
+print([IS_PRODUCTION, HOSTNAME])
+
 ALLOWED_HOSTS = [
     HOSTNAME
 ]

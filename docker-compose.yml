@@ -19,9 +19,13 @@ services:
             echo '' &&
             python manage.py migrate &&
             echo '' &&
+            echo '>>> CREATING STATIC FILES <<<' &&
+            echo '' &&
+            python manage.py collectstatic --no-input &&
+            echo '' &&
             echo '>>> STARTING SERVICE <<<' &&
             echo '' &&
-            python manage.py runserver ${HOSTNAME}:${DJANGO_PORT}"
+            python manage.py runserver ${PRODUCTION_HOSTNAME}:${DJANGO_PORT}"
     environment:
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       CONFIGURATION: ${CONFIGURATION}
