@@ -79,7 +79,6 @@ services:
 
   react_view:
     image: node:18.12.1 # -alpine3.15
-    network_mode: "host"
     restart: unless-stopped
     volumes:
       - ./view/react_view:/react_view
@@ -101,6 +100,9 @@ services:
             # serve -s build -l ${REACT_PORT}
             npm start
             "
+    ports:
+      - "80:3500"
+      - "3500:3500"
     depends_on:
       - node_controller
 

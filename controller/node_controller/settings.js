@@ -27,6 +27,7 @@ for (const currentViewPort of viewPorts) {
     for (const currentHostname of allowedCorsHostnames) {
         allowedCorsUrls.push(protocol + currentHostname + ':' + currentViewPort)
     }
+    allowedCorsUrls.push(protocol + hostname)
 }
 
 const debug = true;
