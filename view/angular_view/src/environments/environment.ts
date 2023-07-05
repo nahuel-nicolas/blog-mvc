@@ -5,9 +5,9 @@
 export const environment = {
   production: false,
   protocol: 'http://',
-  hostname: '0.0.0.0',
+  hostname: '52.86.228.69',
   nodePort: '3030',
-  nodeUrl: 'http://0.0.0.0:3030/'
+  nodeUrl: 'http://52.86.228.69:3030/'
 };
 
 /*
